@@ -1,20 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import "@walletconnect/react-native-compat";
+import { WagmiConfig } from "wagmi";
+import { polygon } from "viem/chains";
+import {
+  createWeb3Modal,
+  defaultWagmiConfig,
+  Web3Modal,
+} from "@web3modal/wagmi-react-native";
+import Component from "./Component";
+
+const projectId = "253d21a00f517cbe554d01eef6801546";
+
+const metadata = {
+  name: "web3modal-rn-test",
+  description: "web3modal-rn-test",
+  url: "https://web3modal.com",
+  icons: [],
+};
+
+const chains = [polygon];
+
+const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata });
+
+createWeb3Modal({ projectId, chains, wagmiConfig });
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <WagmiConfig config={wagmiConfig}>
+      <Component />
+      <Web3Modal />
+    </WagmiConfig>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
